@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Canvas } from "./Canvas";
 import { Toolbar } from "./Toolbar";
 import { PropertiesPanel } from "./PropertiesPanel";
@@ -33,9 +33,41 @@ export const OpenCanvas = () => {
   };
 
   const handleCanvasClear = () => {
+    (window as any).clearCanvas?.();
     setSelectedObject(null);
     toast("Canvas cleared");
   };
+
+  // Keyboard shortcuts
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Prevent shortcuts when typing in input fields
+      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement || e.target instanceof HTMLSelectElement) return;
+      
+      switch (e.key.toLowerCase()) {
+        case 'v':
+        case 's':
+          e.preventDefault();
+          handleToolChange("select");
+          break;
+        case 'r':
+          e.preventDefault();
+          handleToolChange("rectangle");
+          break;
+        case 'c':
+          e.preventDefault();
+          handleToolChange("circle");
+          break;
+        case 't':
+          e.preventDefault();
+          handleToolChange("text");
+          break;
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, []);
 
   return (
     <div className="h-screen bg-background flex">
@@ -51,7 +83,12 @@ export const OpenCanvas = () => {
         {/* Canvas Header */}
         <div className="bg-panel border-b border-panel-border px-6 py-3">
           <div className="flex items-center justify-between">
-            <h1 className="text-lg font-semibold text-foreground">OpenCanvas</h1>
+            <div className="flex items-center gap-4">
+              <h1 className="text-lg font-semibold text-foreground">OpenCanvas</h1>
+              <div className="text-xs text-muted-foreground">
+                Shortcuts: S/V=Select, R=Rectangle, C=Circle, T=Text, Del=Delete
+              </div>
+            </div>
             <div className="flex items-center gap-4">
               <div className="flex items-center gap-2">
                 <label htmlFor="canvas-width" className="text-sm text-muted-foreground">W</label>

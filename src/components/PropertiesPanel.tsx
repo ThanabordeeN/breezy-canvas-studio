@@ -43,10 +43,12 @@ export const PropertiesPanel = ({ selectedObject }: PropertiesPanelProps) => {
                 id="fill-color"
                 type="color"
                 value={selectedObject.fill}
+                onChange={(e) => (window as any).updateObjectProperties?.({ fill: e.target.value })}
                 className="w-12 h-8 border border-input rounded cursor-pointer"
               />
               <Input
                 value={selectedObject.fill}
+                onChange={(e) => (window as any).updateObjectProperties?.({ fill: e.target.value })}
                 placeholder="#000000"
                 className="flex-1 text-sm"
               />
@@ -63,10 +65,12 @@ export const PropertiesPanel = ({ selectedObject }: PropertiesPanelProps) => {
                 id="stroke-color"
                 type="color"
                 value={selectedObject.stroke}
+                onChange={(e) => (window as any).updateObjectProperties?.({ stroke: e.target.value })}
                 className="w-12 h-8 border border-input rounded cursor-pointer"
               />
               <Input
                 value={selectedObject.stroke}
+                onChange={(e) => (window as any).updateObjectProperties?.({ stroke: e.target.value })}
                 placeholder="#000000"
                 className="flex-1 text-sm"
               />
@@ -82,6 +86,7 @@ export const PropertiesPanel = ({ selectedObject }: PropertiesPanelProps) => {
               id="stroke-width"
               type="number"
               value={selectedObject.strokeWidth}
+              onChange={(e) => (window as any).updateObjectProperties?.({ strokeWidth: Number(e.target.value) })}
               min="0"
               max="20"
               className="text-sm"
@@ -97,6 +102,7 @@ export const PropertiesPanel = ({ selectedObject }: PropertiesPanelProps) => {
               <Input
                 id="text-content"
                 value={selectedObject.text || ""}
+                onChange={(e) => (window as any).updateObjectProperties?.({ text: e.target.value })}
                 placeholder="Enter text..."
                 className="text-sm"
               />
@@ -108,6 +114,7 @@ export const PropertiesPanel = ({ selectedObject }: PropertiesPanelProps) => {
                 id="font-size"
                 type="number"
                 value={selectedObject.fontSize || 16}
+                onChange={(e) => (window as any).updateObjectProperties?.({ fontSize: Number(e.target.value) })}
                 min="8"
                 max="72"
                 className="text-sm"
@@ -119,6 +126,7 @@ export const PropertiesPanel = ({ selectedObject }: PropertiesPanelProps) => {
               <select
                 id="font-family"
                 value={selectedObject.fontFamily || "Arial"}
+                onChange={(e) => (window as any).updateObjectProperties?.({ fontFamily: e.target.value })}
                 className="w-full px-3 py-2 text-sm border border-input rounded-md bg-input"
               >
                 <option value="Arial">Arial</option>
@@ -134,10 +142,16 @@ export const PropertiesPanel = ({ selectedObject }: PropertiesPanelProps) => {
         {/* Object Actions */}
         <div className="pt-4 border-t border-border">
           <div className="space-y-2">
-            <button className="w-full px-3 py-2 text-sm bg-secondary text-secondary-foreground rounded-md hover:bg-secondary/80 transition-colors">
+            <button 
+              onClick={() => (window as any).duplicateObject?.()}
+              className="w-full px-3 py-2 text-sm bg-secondary text-secondary-foreground rounded-md hover:bg-secondary/80 transition-colors"
+            >
               Duplicate Object
             </button>
-            <button className="w-full px-3 py-2 text-sm bg-destructive text-destructive-foreground rounded-md hover:bg-destructive/80 transition-colors">
+            <button 
+              onClick={() => (window as any).deleteObject?.()}
+              className="w-full px-3 py-2 text-sm bg-destructive text-destructive-foreground rounded-md hover:bg-destructive/80 transition-colors"
+            >
               Delete Object
             </button>
           </div>
