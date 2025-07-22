@@ -26,7 +26,8 @@ export default {
 				foreground: 'hsl(var(--foreground))',
 				primary: {
 					DEFAULT: 'hsl(var(--primary))',
-					foreground: 'hsl(var(--primary-foreground))'
+					foreground: 'hsl(var(--primary-foreground))',
+					glow: 'hsl(var(--primary-glow))'
 				},
 				secondary: {
 					DEFAULT: 'hsl(var(--secondary))',
@@ -52,15 +53,24 @@ export default {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
 				},
+				// OpenCanvas specific colors
+				canvas: {
+					DEFAULT: 'hsl(var(--canvas-background))',
+					border: 'hsl(var(--canvas-border))'
+				},
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
 					foreground: 'hsl(var(--sidebar-foreground))',
-					primary: 'hsl(var(--sidebar-primary))',
-					'primary-foreground': 'hsl(var(--sidebar-primary-foreground))',
-					accent: 'hsl(var(--sidebar-accent))',
-					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
-					border: 'hsl(var(--sidebar-border))',
-					ring: 'hsl(var(--sidebar-ring))'
+					border: 'hsl(var(--sidebar-border))'
+				},
+				panel: {
+					DEFAULT: 'hsl(var(--panel-background))',
+					border: 'hsl(var(--panel-border))'
+				},
+				tool: {
+					active: 'hsl(var(--tool-active))',
+					hover: 'hsl(var(--tool-hover))',
+					inactive: 'hsl(var(--tool-inactive))'
 				}
 			},
 			borderRadius: {
