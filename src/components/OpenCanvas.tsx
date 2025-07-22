@@ -120,6 +120,20 @@ export const OpenCanvas = () => {
                   className="w-8 h-8 border border-input rounded cursor-pointer"
                 />
               </div>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => (window as any).exportCanvas?.('png')}
+                  className="px-3 py-1 text-sm bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
+                >
+                  Export PNG
+                </button>
+                <button
+                  onClick={() => (window as any).exportCanvas?.('jpg')}
+                  className="px-3 py-1 text-sm bg-secondary text-secondary-foreground rounded-md hover:bg-secondary/90 transition-colors"
+                >
+                  Export JPG
+                </button>
+              </div>
             </div>
           </div>
         </div>

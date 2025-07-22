@@ -61,6 +61,39 @@ export const Canvas = ({ activeTool, onObjectSelect, canvasSize, backgroundColor
       onObjectSelect(null);
     });
 
+    // Listen for text changes
+    canvas.on('text:changed', (e) => {
+      const activeObject = e.target;
+      if (activeObject && activeObject.type === 'textbox') {
+        onObjectSelect({
+          id: Math.random().toString(36).substr(2, 9),
+          type: activeObject.type || '',
+          fill: activeObject.fill as string,
+          stroke: activeObject.stroke as string,
+          strokeWidth: activeObject.strokeWidth,
+          text: (activeObject as any).text,
+          fontSize: (activeObject as any).fontSize,
+          fontFamily: (activeObject as any).fontFamily,
+        });
+      }
+    });
+
+    canvas.on('object:modified', (e) => {
+      const activeObject = e.target;
+      if (activeObject) {
+        onObjectSelect({
+          id: Math.random().toString(36).substr(2, 9),
+          type: activeObject.type || '',
+          fill: activeObject.fill as string,
+          stroke: activeObject.stroke as string,
+          strokeWidth: activeObject.strokeWidth,
+          text: (activeObject as any).text,
+          fontSize: (activeObject as any).fontSize,
+          fontFamily: (activeObject as any).fontFamily,
+        });
+      }
+    });
+
     setFabricCanvas(canvas);
 
     return () => {
@@ -71,7 +104,8 @@ export const Canvas = ({ activeTool, onObjectSelect, canvasSize, backgroundColor
   // Update canvas size and background
   useEffect(() => {
     if (fabricCanvas) {
-      fabricCanvas.setDimensions(canvasSize);
+      fabricCanvas.setWidth(canvasSize.width);
+      fabricCanvas.setHeight(canvasSize.height);
       fabricCanvas.backgroundColor = backgroundColor;
       fabricCanvas.renderAll();
     }
@@ -239,11 +273,30 @@ export const Canvas = ({ activeTool, onObjectSelect, canvasSize, backgroundColor
     }
   };
 
+  // Export canvas function
+  const exportCanvas = (format: 'png' | 'jpg' = 'png') => {
+    if (!fabricCanvas) return;
+    
+    const dataURL = fabricCanvas.toDataURL({
+      format: format === 'jpg' ? 'jpeg' : 'png',
+      quality: 1.0,
+      multiplier: 2
+    });
+    
+    const link = document.createElement('a');
+    link.download = `canvas-export.${format}`;
+    link.href = dataURL;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   // Expose functions to global scope
   useEffect(() => {
     (window as any).updateObjectProperties = updateObjectProperties;
     (window as any).deleteObject = deleteObject;
     (window as any).duplicateObject = duplicateObject;
+    (window as any).exportCanvas = exportCanvas;
   }, [fabricCanvas]);
 
   return (
